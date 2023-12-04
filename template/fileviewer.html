@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <title>Download Files</title>
+</head>
+
+<body>
+    <h2>Click to download files</h2>
+    <div>
+        <list id="file-list">
+        </list>
+    </div>
+
+    <script>
+        var list = document.getElementById('file-list');
+        var domain = "http://192.168.43.143:5000/";
+        getFiles();
+
+        function setListElements(...arraylist) {
+            console.log(arraylist.length);
+            arraylist.forEach(element => {
+                var li = document.createElement("li");
+                var a = document.createElement("a");
+
+                var link = document.createTextNode(element);
+                a.appendChild(link);
+
+                a.href = domain + "download/" + element;
+
+                li.appendChild(a);
+                list.appendChild(li);
+            });
+        }
+
+        function getFiles() {
+            var rawJson = [];
+
+            fetch(domain + "files", {
+                method: "GET"
+            }).then(res => res.json())
+                .then(json => {
+                    console.log(json);
+                    json.forEach(element => {
+                        var li = document.createElement("li");
+                        var a = document.createElement("a");
+
+                        var link = document.createTextNode(element);
+                        a.appendChild(link);
+
+                        a.href = domain + "download/" + element;
+
+                        li.appendChild(a);
+                        list.appendChild(li);
+                    });
+                });
+        }
+
+    </script>
+</body>
+
+</html>
